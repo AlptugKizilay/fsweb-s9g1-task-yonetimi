@@ -1,10 +1,13 @@
-import { useState } from "react";
-import "./app.css";
+import { useEffect, useState } from "react";
+import {ToastContainer, toast} from "react-toastify";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
 import TaskHookForm from "./TaskHookForm";
 import PeopleForm from "./PeopleForm";
 import { initialTasks, initialTeam } from "./data";
+
+import "./app.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -20,15 +23,40 @@ function App() {
   }
 
   function handleComplete(id) {
-    console.log("tamamlama fonksiyonunu buraya yazın")
+    /* setTasks(...tasks, tasks.id) */
+    console.log(tasks);
+    const selectedTask= tasks.filter(e =>{
+      return e.id === id;
+    })
+    selectedTask[0].status = "yapıldı"
+    setTasks([...tasks, selectedTask]);
+    setTimeout(()=>{
+      toast.success('Görev tamamlandı', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    },100)
+   
   }
+  useEffect(()=>{    
+    toast('Görev ekleyebilirsiniz', {   
+      autoClose: 2000,
+      theme: "dark",
+   });
+  },[])
 
   return (
     <div className="app">
       <div className="formColumn">
         <div className="form-container">
           <h2>Yeni Task</h2>
-          {/* <TaskForm kisiler={team} submitFn={handleTaskSubmit} /> */}
+          {/* {<TaskForm kisiler={team} submitFn={handleTaskSubmit} />} */}
           <TaskHookForm kisiler={team} submitFn={handleTaskSubmit} />
         </div>
 
@@ -59,7 +87,7 @@ function App() {
           </div>
         </div>
       </div>
-
+      <ToastContainer />
     </div>
   );
 }

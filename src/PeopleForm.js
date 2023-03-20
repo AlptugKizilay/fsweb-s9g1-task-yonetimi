@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const PeopleForm = ({ kisiler, submitFn }) => {
   const [isim, setIsim] = useState("");
@@ -20,6 +21,18 @@ const PeopleForm = ({ kisiler, submitFn }) => {
     e.preventDefault();
     submitFn(isim);
     setIsim("");
+    setTimeout(()=>{
+      toast.success('Kişi eklendi', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    },100)
   }
 
   return (
